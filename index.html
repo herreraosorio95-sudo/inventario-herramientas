@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario Herramientas</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.caja{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:320px;
+    box-shadow:0 0 10px #aaa;
+}
+
+input,button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+}
+
+button{
+    background:#1976d2;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#125aa0;
+}
+
+#sistema{
+    display:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="caja" id="login">
+
+<h2>Ingreso al sistema</h2>
+
+<input type="email" id="correo" placeholder="Correo">
+
+<input type="password" id="clave" placeholder="Contraseña">
+
+<button onclick="iniciarSesion()">Ingresar</button>
+
+<p id="mensaje"></p>
+
+</div>
+
+
+<div class="caja" id="sistema">
+
+<h2>Inventario Herramientas</h2>
+
+<p>Bienvenido al sistema ✅</p>
+
+<button onclick="cerrarSesion()">Cerrar sesión</button>
+
+</div>
+
+
+
+<script type="module">
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import { 
+getAuth,
+signInWithEmailAndPassword,
+signOut
+} 
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+// CONFIGURACION FIREBASE
+
+const firebaseConfig = {
+apiKey: "AIzaSyAuHgDyOO3gzYhWQ7TeMWQ5evlmXsP4GEo",
+authDomain: "inventario-herramientas-a25c7.firebaseapp.com",
+projectId: "inventario-herramientas-a25c7",
+storageBucket: "inventario-herramientas-a25c7.firebasestorage.app",
+messagingSenderId: "790995032151",
+appId: "1:790995032151:web:24f1b47e7797a0136f6b12",
+measurementId: "G-WQGN0503PS"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+
+window.iniciarSesion = function(){
+
+let correo=document.getElementById("correo").value;
+let clave=document.getElementById("clave").value;
+
+
+signInWithEmailAndPassword(auth,correo,clave)
+
+.then((usuario)=>{
+
+document.getElementById("login").style.display="none";
+
+document.getElementById("sistema").style.display="block";
+
+})
+
+.catch((error)=>{
+
+document.getElementById("mensaje").innerHTML=
+"Usuario o contraseña incorrectos";
+
+});
+
+}
+
+
+
+window.cerrarSesion=function(){
+
+signOut(auth).then(()=>{
+
+document.getElementById("sistema").style.display="none";
+
+document.getElementById("login").style.display="block";
+
+});
+
+}
+
+
+</script>
+
+
+</body>
+</html>
